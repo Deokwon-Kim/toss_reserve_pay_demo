@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:toss/main.dart';
-import 'package:toss/screen/payments_widget_example.dart';
+import 'package:toss/screen/reservation_page.dart';
 
 class PayFailed extends StatelessWidget {
   const PayFailed({super.key});
@@ -24,7 +23,7 @@ class PayFailed extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.off(() => PaymentWidgetExamplePage());
+                  Get.off(() => ReservationPage());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,

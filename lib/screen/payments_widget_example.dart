@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:toss/pay_failed.dart';
+import 'package:intl/intl.dart';
+import 'package:toss/screen/pay_failed.dart';
 import 'package:tosspayments_widget_sdk_flutter/model/payment_info.dart';
 import 'package:tosspayments_widget_sdk_flutter/model/payment_widget_options.dart';
 import 'package:tosspayments_widget_sdk_flutter/payment_widget.dart';
@@ -19,6 +20,13 @@ class _PaymentWidgetExamplePageState extends State<PaymentWidgetExamplePage> {
   late PaymentWidget _paymentWidget;
   PaymentMethodWidgetControl? _paymentMethodWidgetControl;
   AgreementWidgetControl? _agreementWidgetControl;
+
+  // Format amount with commas
+  String formatAmount(int amount) {
+    final formatter = NumberFormat('#,###');
+    return '${formatter.format(amount)}원';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +40,7 @@ class _PaymentWidgetExamplePageState extends State<PaymentWidgetExamplePage> {
         .renderPaymentMethods(
           selector: 'methods',
           amount: Amount(value: 300, currency: Currency.KRW, country: "KR"),
+          // The formatted value for display would be: formatAmount(300) -> "300원"
           options: RenderPaymentMethodsOptions(variantKey: "DEFAULT"),
         )
         .then((control) {
@@ -73,6 +82,8 @@ class _PaymentWidgetExamplePageState extends State<PaymentWidgetExamplePage> {
                   paymentInfo: const PaymentInfo(
                     orderId: 's2hDZDhdC3x6QGmf47ZGT',
                     orderName: '토스 티셔츠 외 2건',
+                    // If you want to display the amount in the order summary:
+                    // orderName: '토스 티셔츠 외 2건 (${formatAmount(300)})',
                   ),
                 );
                 if (paymentResult.success != null) {
@@ -92,9 +103,9 @@ class _PaymentWidgetExamplePageState extends State<PaymentWidgetExamplePage> {
                 margin: EdgeInsets.only(left: 30, right: 30, bottom: 40),
                 width: double.infinity,
                 height: 65,
-                child: const Text(
-                  '결제하기',
-                  style: TextStyle(
+                child: Text(
+                  '결제하기 (${formatAmount(300)})', // Added formatted amount to button text
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,

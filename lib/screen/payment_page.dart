@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:toss/model/reserve_model.dart';
-import 'package:toss/pay_failed.dart';
-import 'package:toss/pay_success.dart';
+import 'package:toss/screen/pay_failed.dart';
+import 'package:toss/screen/pay_success.dart';
 import 'package:tosspayments_widget_sdk_flutter/model/payment_info.dart';
 import 'package:tosspayments_widget_sdk_flutter/model/payment_widget_options.dart';
 import 'package:tosspayments_widget_sdk_flutter/payment_widget.dart';
@@ -24,6 +25,12 @@ class _PaymentPageState extends State<PaymentPage> {
   late PaymentWidget _paymentWidget;
   PaymentMethodWidgetControl? _paymentMethodWidgetControl;
   AgreementWidgetControl? _agreementWidgetControl;
+
+  // Format amount with commas
+  String formatAmount(int amount) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(amount);
+  }
 
   @override
   void initState() {
@@ -89,7 +96,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    '금액: ${widget.reservationInfo.amount}원',
+                    '금액: ${formatAmount(widget.reservationInfo.amount)}원',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -153,7 +160,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 width: double.infinity,
                 height: 65,
                 child: Text(
-                  '${widget.reservationInfo.amount}원 결제하기',
+                  '${formatAmount(widget.reservationInfo.amount)}원 결제하기',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:toss/model/reserve_model.dart';
 import 'package:toss/screen/reservation_page.dart';
 
@@ -7,6 +8,12 @@ class PaySuccess extends StatelessWidget {
   final ReservationInfo reservationInfo;
 
   const PaySuccess({super.key, required this.reservationInfo});
+
+  // Format amount with commas
+  String formatAmount(int amount) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(amount);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,7 @@ class PaySuccess extends StatelessWidget {
                     '예약일: ${reservationInfo.reservationDate.toString().split(' ')[0]}',
                   ),
                   SizedBox(height: 8),
-                  Text('결제금액: ${reservationInfo.amount}원'),
+                  Text('결제금액: ${formatAmount(reservationInfo.amount)}원'),
                   SizedBox(height: 8),
                 ],
               ),

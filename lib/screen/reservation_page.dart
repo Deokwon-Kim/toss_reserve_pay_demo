@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:toss/model/reserve_model.dart';
 import 'package:toss/screen/payment_page.dart';
+
+// Utility function to format number with commas
+String formatAmount(int amount) {
+  final formatter = NumberFormat('#,###');
+  return '${formatter.format(amount)}원';
+}
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({super.key});
@@ -30,7 +37,7 @@ class _ReservationPageState extends State<ReservationPage> {
             DropdownButton<String>(
               value: _selectedService,
               items:
-                  ['기본 서비스', '프리미엄 서비스', 'VIP 서비스']
+                  ['기본 서비스', '프리미엄 서비스', 'VIP 서비스', 'VVVVIP 서비스']
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
               onChanged: (value) {
@@ -43,6 +50,8 @@ class _ReservationPageState extends State<ReservationPage> {
                     _selectedAmount = 50000;
                   else if (value == 'VIP 서비스')
                     _selectedAmount = 100000;
+                  else if (value == 'VVVVIP 서비스')
+                    _selectedAmount = 10000000;
                 });
               },
             ),
@@ -70,13 +79,29 @@ class _ReservationPageState extends State<ReservationPage> {
             // 이름, 이메일 입력
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: '이름'),
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelText: '이름',
+              ),
             ),
             SizedBox(height: 8),
 
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: '이메일'),
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelText: '이메일',
+              ),
               keyboardType: TextInputType.emailAddress,
             ),
 
@@ -84,7 +109,7 @@ class _ReservationPageState extends State<ReservationPage> {
 
             // 가격 표시
             Text(
-              '결제 금액: ${_selectedAmount.toString()}원',
+              '결제 금액: ${formatAmount(_selectedAmount)}',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
 
@@ -119,7 +144,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 ),
                 margin: EdgeInsets.only(left: 30, right: 30, bottom: 40),
                 width: double.infinity,
-                height: 60,
+                height: 58,
                 child: const Text(
                   '결제하기',
                   style: TextStyle(
